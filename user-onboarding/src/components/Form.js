@@ -4,29 +4,44 @@ import * as Yup from "yup";
 import axios from "axios";
 import styled from 'styled-components';
 
+const MyForm = styled.form`
+    border: 2px solid red;
+    display: flex;
+    flex-direction: column;
+    width: 460px;
+    margin: 20px 50px;
+    padding: 32px;
+    font-weight: bold;
+    background-color: coral;
+    box-shadow: 2px 2px 10px 10px rgba(0, 0, 0, 0.1);
+`;
 
 const UserForm = ({ values, errors, touched, status }) => {
-    const [users, setAnimals] = useState([]);
+    const [users, setUsers] = useState([]);
   
     useEffect(() => {
-      status && setAnimals(users => [...users, status]);
+      status && setUsers(users => [...users, status]);
     }, [status]);
   
     return (
-      <div className="animal-form">
+        <div>
         <Form>
-          <Field type="text" name="species" placeholder="species" />
-          {touched.species && errors.species && (
-            <p className="errors">{errors.species}</p>
+          <Field type="text" name="userName" placeholder="userName" />
+          {touched.userName && errors.userName && (
+            <p className="errors">{errors.userName}</p>
           )}
-          <Field type="text" name="size" placeholder="size" />
-          {touched.size && errors.size && <p className="errors">{errors.size}</p>}
-          <Field as="select" className="food-select" name="diet">
-            <option>Please Choose an Option</option>
-            <option value="herbivore">Herbivore</option>
-            <option value="carnivore">Carnivore</option>
-            <option value="omnivore">Omnivore</option>
+          <Field type="email" name="email" placeholder="email" />
+          {touched.email && errors.email && (
+            <p className="email">{errors.email}</p>
+          )}
+          
+          <Field as="select" className="userFitType" name="userFitType">
+            <option>Choose Type of Fitness</option>
+            <option value="dryland">Dry Land Fitness</option>
+            <option value="pool">Pool Fitness</option>
+            <option value="cycle">Tour Training (Cycle)</option>
           </Field>
+
           <label className="checkbox-container">
           Terms of Service
             <Field
@@ -36,26 +51,29 @@ const UserForm = ({ values, errors, touched, status }) => {
             />
             <span className="checkmark" />
           </label>
-          <Field as="textarea" type="text" name="notes" placeholder="notes" />
+
+          <Field as="textarea" type="text" name="userNotes" placeholder="userNotes" />
           <button>Submit!</button>
         </Form>
-        {users.map(userpass => (
-          <ul key={userpass.id}>
-            <li>Species: {userpass.species}</li>
-            <li>Size: {userpass.size}</li>
+        {users.map(usercb => (
+          <ul key={usercb.id}>
+            <li>User Name: {usercb.userName}</li>
+            <li>User Email: {usercb.email}</li>
           </ul>
         ))}
+            
       </div>
     );
   };
+
   const FormikUserForm = withFormik({
-    mapPropsToValues({ species, size, diet, termsOfService, notes }) {
+    mapPropsToValues({ userName, email, userFitType, termsOfService, userNotes }) {
       return {
-        species: species || "",
-        size: size || "",
-        diet: diet || "",
+        userName: userName || "",
+        email: email || "",
+        userFitType: userFitType || "",
         termsOfService: termsOfService || false,
-        notes: notes || ""
+        userNotes: userNotes || ""
       };
     },
     validationSchema: Yup.object().shape({
