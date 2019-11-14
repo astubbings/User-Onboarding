@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import { withFormik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import styled from 'styled-components';
 
 
-const AnimalForm = ({ values, errors, touched, status }) => {
-    const [animals, setAnimals] = useState([]);
+const UserForm = ({ values, errors, touched, status }) => {
+    const [users, setAnimals] = useState([]);
   
     useEffect(() => {
-      status && setAnimals(animals => [...animals, status]);
+      status && setAnimals(users => [...users, status]);
     }, [status]);
   
     return (
@@ -27,33 +28,33 @@ const AnimalForm = ({ values, errors, touched, status }) => {
             <option value="omnivore">Omnivore</option>
           </Field>
           <label className="checkbox-container">
-            vaccinations
+          Terms of Service
             <Field
               type="checkbox"
-              name="vaccinations"
-              checked={values.vaccinations}
+              name="termsOfService"
+              checked={values.termsOfService}
             />
             <span className="checkmark" />
           </label>
           <Field as="textarea" type="text" name="notes" placeholder="notes" />
           <button>Submit!</button>
         </Form>
-        {animals.map(animal => (
-          <ul key={animal.id}>
-            <li>Species: {animal.species}</li>
-            <li>Size: {animal.size}</li>
+        {users.map(userpass => (
+          <ul key={userpass.id}>
+            <li>Species: {userpass.species}</li>
+            <li>Size: {userpass.size}</li>
           </ul>
         ))}
       </div>
     );
   };
-  const FormikAnimalForm = withFormik({
-    mapPropsToValues({ species, size, diet, vaccinations, notes }) {
+  const FormikUserForm = withFormik({
+    mapPropsToValues({ species, size, diet, termsOfService, notes }) {
       return {
         species: species || "",
         size: size || "",
         diet: diet || "",
-        vaccinations: vaccinations || false,
+        termsOfService: termsOfService || false,
         notes: notes || ""
       };
     },
@@ -71,9 +72,9 @@ const AnimalForm = ({ values, errors, touched, status }) => {
         })
         .catch(err => console.log(err.response));
     }
-  })(AnimalForm);
-  export default FormikAnimalForm;
-  console.log("This is the HOC", FormikAnimalForm);
+  })(UserForm);
+  export default FormikUserForm;
+  console.log("This is the HOC", FormikUserForm);
   // HOC: A function that takes a component as its first argument and returns a new component that wraps the given component providing extra capabilities ( definition from Bob Ziroll on Scrimba)
   // Example of HOC syntax
   // const superComponent = withSpecialPowers(Component)
